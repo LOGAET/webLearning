@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="bootstrap/css/style.js" >
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Tasks</title>
+  <style>
+    body{
+        display: flex;
+    }
+    #chat-container {
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+    }
+
+    .message {
+      margin-bottom: 10px;
+    }
+
+    .message .sender {
+      font-weight: bold;
+    }
+
+    .message .content {
+      margin-top: 5px;
+    }
+    #chat-container2 {
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      
+    }
+    #chat-container3 {
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      
+    }
+    #chat-container4 {
+      width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-container"></div>
+  <div id="chat-container2"></div>
+  <div id="chat-container3"></div>
+  <div id="chat-container4"></div>
+
+  <script>
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    var chatContainer = document.getElementById('chat-container');
+    var chatContainer2 = document.getElementById('chat-container2');
+    var chatContainer3 = document.getElementById('chat-container3');
+    var chatContainer4 = document.getElementById('chat-container4');
+
+    var numbers = [];
+
+    for (var i = 0; i < 15; i++) {
+        numbers.push(getRandomNumber(-10, 30));
+    }
+    
+    var html = numbers.map(function(number) {
+      return '<div class="message">' +
+               '<div class="sender">Output:</div>' +
+               '<div class="content">' + number + '</div>' +
+             '</div>';
+    });
+
+    var numbers2 = numbers.slice();
+    for (var i = 0; i < 15; i++) {
+        if (numbers2[i]<0){
+            numbers2[i] = numbers2[i] * numbers2[i]
+        }
+    }
+
+    html2 =  numbers2.map(function(number) {
+      return '<div class="message">' +
+               '<div class="sender">Output:</div>' +
+               '<div class="content">' + number + '</div>' +
+             '</div>';
+    });
+
+    var numbers3 = numbers.slice();
+    var positiveSum = 0; 
+    var positiveCount = 0; 
+    var negativeSum = 0;  
+    var negativeCount = 0;
+    var zeroCount = 0; 
+
+
+    for (var i = 0; i < numbers3.length; i++) {
+        var currentNumber = numbers3[i];
+
+        if (currentNumber > 0) {
+            positiveSum += currentNumber;
+            positiveCount++;
+        } else if (currentNumber < 0) {
+            negativeSum += currentNumber;
+            negativeCount++;
+        } else {
+            zeroCount++;
+        }
+    }
+
+    var positiveAverage = positiveSum / positiveCount;
+    var negativeAverage = negativeSum / negativeCount;
+
+    var colorCount = [0,0,0];
+    var maxColorCount = [0,0,0];
+    var simulations = 1000000;
+
+    for (var i = 0; i < simulations; i++) {
+        var randomNumber = getRandomNumber(0, 2);
+
+        if (randomNumber == 0) {
+            colorCount[0]++;
+            if (colorCount[0] > maxColorCount[0]) {
+            maxColorCount[0] = colorCount[0];
+            }
+        } else {
+            colorCount[0] = 0;
+        }
+
+        if (randomNumber == 1) {
+            colorCount[1]++;
+            if (colorCount[1] > maxColorCount[1]) {
+            maxColorCount[1] = colorCount[1];
+            }
+        } else {
+            colorCount[1] = 0;
+        }
+
+        if (randomNumber == 2) {
+            colorCount[2]++;
+            if (colorCount[2] > maxColorCount[2]) {
+            maxColorCount[2] = colorCount[2];
+            }
+        } else {
+            colorCount[2] = 0;
+        }
+        
+    }
+
+
+    html3 =  '<div class="message">' +
+               '<div class="sender">Output:</div>' +
+               '<div class="content">' + 'среднее арифметическое положительных чисел ' +positiveAverage+ '</div>' +
+               '<div class="content">' + 'среднее арифметическое отрицательных чисел ' +negativeAverage+ '</div>' +
+               '<div class="content">' + 'кол-во нулей ' +zeroCount+ '</div>' +
+             '</div>';
+
+    html4 = '<div class="message">' +
+               '<div class="sender">Output:</div>' +
+               '<div class="content">' + 'Максимальная длина красной последовательности ' +maxColorCount[0]+ '</div>' +
+               '<div class="content">' + 'Максимальная длина чёрной последовательности ' +maxColorCount[1]+ '</div>' +
+               '<div class="content">' + 'Максимальная длина белой последовательности ' +maxColorCount[2]+ '</div>' +
+               '<div class="content">' + 'Максимальная длина последовательности ' + Math.max(maxColorCount[0],maxColorCount[1], maxColorCount[2]) + '</div>' +
+             '</div>';
+
+
+
+    chatContainer.innerHTML = html.join('');
+    chatContainer2.innerHTML = html2.join('');
+    chatContainer3.innerHTML = html3;
+    chatContainer4.innerHTML = html4;
+  </script>
+</body>
+</html>
